@@ -17,7 +17,8 @@ func Initialize(config utils.Configuration) {
 
 	conn, err := amqp.Dial(config.Queue.Url)
 	if err != nil {
-		log.Info("Failed Initializing Broker Connection")
+		log.Info("Failed Initializing Broker Connection", err)
+		panic(err)
 	}
 
 	ch, err := conn.Channel()
