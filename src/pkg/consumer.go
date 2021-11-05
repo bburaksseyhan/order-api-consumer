@@ -29,6 +29,10 @@ func Initialize(config utils.Configuration) {
 
 	messages, err := ch.Consume(QUEUENAME, "", true, false, false, false, nil)
 
+	if err != nil {
+		log.Error(err)
+	}
+
 	channel := make(chan bool)
 
 	go func() {
