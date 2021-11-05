@@ -27,6 +27,9 @@ func Initialize(config utils.Configuration) {
 	}
 	defer ch.Close()
 
+	queue, _ := ch.QueueDeclare(QUEUENAME, false, false, false, false, nil)
+	log.Info(queue)
+
 	messages, err := ch.Consume(QUEUENAME, "", true, false, false, false, nil)
 
 	if err != nil {
