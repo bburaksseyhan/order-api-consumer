@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"github.com/bburaksseyhan/orderconsumer/src/cmd/utils"
 	services "github.com/bburaksseyhan/orderconsumer/src/pkg"
 	"github.com/labstack/gommon/log"
@@ -10,7 +12,14 @@ import (
 func main() {
 	log.Info("main.go is running...")
 
+	url := os.Getenv("GO_RABBITMQ_URL")
+	log.Info("Rabbit Service URL", url)
+
 	settings := read()
+
+	if url != "" {
+		settings.Queue.Url = url
+	}
 
 	services.Initialize(settings)
 }

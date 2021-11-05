@@ -13,7 +13,7 @@ const (
 
 func Initialize(config utils.Configuration) {
 
-	log.Info("Consumer is running!!!")
+	log.Info("Consumer is running!!!", config.Queue.Url)
 
 	conn, err := amqp.Dial(config.Queue.Url)
 	if err != nil {
