@@ -27,22 +27,23 @@ func Initialize(config utils.Configuration) {
 	}
 	defer ch.Close()
 
-	queue, _ := ch.QueueDeclare(QUEUENAME, false, false, false, false, nil)
-	log.Info(queue)
-
 	messages, err := ch.Consume(QUEUENAME, "", true, false, false, false, nil)
 
 	if err != nil {
 		log.Error(err)
+
+		queue, _ := ch.QueueDeclare(QUEUENAME, false, false, false, false, nil)
+		log.Info(queue)
 	}
 
 	channel := make(chan bool)
+	anotherChannel := make(chan bool)
 
-	go func() {
+	go func(chan bool, chan bool) {
 		for message := range messages {
 			log.Printf("Recieved Order Message: %s\n", message.Body)
 		}
-	}()
+	}(channel, anotherChannel)
 
 	log.Info(" [*] - Waiting for messages")
 
